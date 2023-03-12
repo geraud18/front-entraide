@@ -1,0 +1,67 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col lg="7" md="9" xl="6">
+        <c-card class="mx-4">
+          <c-card-body class="p-4">
+            <form (ngSubmit)="onSubmit(formLogin)" #formLogin="ngForm" class="form-login p-4">
+              <div class="d-flex flex-row justify-content-center">
+                <div class="text-center">
+                  <h1>Inscription</h1>
+                  <p>Vous avez un compte ? <a routerLink="/login"> Se connecter </a></p>
+                </div>
+              </div>
+              <div class="form-group mb-3">
+                <label for="name" class="form-label">Nom</label>
+                <input #name="ngModel" pattern="^[a-zA-Z0-9àéèç]{1,25}$" type="text" class="form-control" name="name" id="name" autocomplete="off" required ngModel />
+                <span [hidden]="name.valid || name.pristine" class="text-danger">Le nom est requis</span>
+              </div>
+              <div class="form-group mb-3">
+                <label for="firstname" class="form-label">Prenom</label>
+                <input #firstname="ngModel" pattern="^[a-zA-Z0-9àéèç]{1,25}$" type="text" class="form-control" name="firstname" id="firstname" autocomplete="off" required ngModel />
+                <span [hidden]="firstname.valid || firstname.pristine" class="text-danger">Le prenom est requis</span>
+              </div>
+              <div class="form-group mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input #email="ngModel" type="email" class="form-control" name="email" id="email" required autocomplete="off" required ngModel />
+                <span [hidden]="email.valid || email.pristine" class="text-danger">Email non valide</span>
+              </div>
+              <div class="form-group mb-3">
+                <label for="telephone" class="form-label">Telephone</label>
+                <input #telephone="ngModel" type="text" class="form-control" name="telephone" id="telephone" autocomplete="off" pattern="[0-9]{10}" required ngModel />
+                <span [hidden]="telephone.valid || telephone.pristine" class="text-danger">Le numero doit respecter ce format : 0X XX XX XX XX</span>
+              </div>
+
+              <div class="form-group mb-2">
+                <label for="password" class="form-label">Mot de passe</label>
+                <div>
+                  <input type="{{ showPassword ? 'text' : 'password' }}" class="form-control" id="password" name="password"
+                         autocomplete="off" #password="ngModel" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.*\s).{8,}" required ngModel>
+                  <i  (click)="showPassword = !showPassword" class="eye-icon {{ showPassword ? 'fas fa-eye-slash' : 'fas fa-eye' }}"></i>
+                </div>
+                <span [hidden]="password.valid || password.pristine" class="text-danger">Le mot de passe doit contenir avoir min 8 caractere et contenir une lettre (Majuscule et miniscule), un chiffre et caractere special</span>
+              </div>
+              <div class="form-group mb-3">
+                <label for="confirm-password" class="form-label">Confirmer mot de passe</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  name="confirm-password"
+                  id="confirm-password"
+                  autocomplete="off" #confirmPassword="ngModel" required ngModel  (blur)="verifPassword(password.value, confirmPassword.value)"
+                />
+                <span *ngIf="verifPass" class="text-danger">Mot de passe non correct</span>
+                <!--<span *ngIf="password.value == confirmPassword.value" class="text-sucess">Mot de passe correct</span>-->
+              </div>
+              <div class="form-group">
+                <button type="submit" [disabled]="formLogin.invalid" class="form-control btn btn-login-submit text-black">
+                  Se connecter
+                </button>
+              </div>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
